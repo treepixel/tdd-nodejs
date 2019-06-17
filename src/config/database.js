@@ -8,6 +8,7 @@ module.exports = {
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   dialect: process.env.DATABASE_DIALECT || "postgres",
+  storage: "./__tests__/database.sqlite",
   operatorsAliases: false,
   logging: false,
   define: {
