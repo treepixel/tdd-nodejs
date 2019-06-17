@@ -1,15 +1,28 @@
+const request = require("supertest");
+
+const app = require("../../src/app");
 const { User } = require("../../src/app/models");
+const truncate = require("../utils/truncate");
 
 describe("Authentication", () => {
-  it("Shoud receive JWT token when authenticate with valid credentials", async () => {
+  beforeEach(async () => {
+    await truncate();
+  });
+
+  it("Shoud authenticate with valid credentials", async () => {
     const user = await User.create({
-      name: "Antonio Rodrigo",
-      email: "rodrigobuchecha@hotmail.com",
-      password_hash: "afasdfasdf7891451"
+      name: "Antonio Rodrigues",
+      email: "antonio.rodrigues_tga@hotmail.com",
+      password_hash: "123123"
     });
 
-    console.log(user);
+    const response = await request(app)
+      .post("/sessions")
+      .send({
+        email: user.email,
+        password: "123123"
+      });
 
-    expect(user.email).toBe("rodrigobuchecha@hotmail.com");
+    expect(response.status).toBe(200);
   });
 });
